@@ -11,5 +11,19 @@
 *.war
 *.ear
 
+.settings
+mdspos
+posdb
+build
+dist
+bin
+pos.rar
+mds-pos.jar
+classes
+backup
+mysql.sqlpage
+1.xml
+doc
+
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
