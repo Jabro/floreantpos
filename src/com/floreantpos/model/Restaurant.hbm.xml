@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping default-lazy="false" package="com.floreantpos.model">
+  <class lazy="false" name="Restaurant" table="RESTAURANT">
+    <id column="ID" name="id" type="java.lang.Integer">
+      <generator class="assigned"/>
+    </id>
+    <property column="UNIQUE_ID" name="uniqueId" type="java.lang.Integer"/>
+    <property column="NAME" length="120" name="name" type="string"/>
+    <property column="ADDRESS_LINE1" length="60" name="addressLine1" type="string"/>
+    <property column="ADDRESS_LINE2" length="60" name="addressLine2" type="string"/>
+    <property column="ADDRESS_LINE3" length="60" name="addressLine3" type="string"/>
+    <property column="ZIP_CODE" length="10" name="zipCode" type="string"/>
+    <property column="TELEPHONE" length="16" name="telephone" type="string"/>
+    <property column="CAPACITY" name="capacity" type="java.lang.Integer"/>
+    <property column="TABLES" name="tables" type="java.lang.Integer"/>
+    <property column="CNAME" length="20" name="currencyName" type="string"/>
+    <property column="CSYMBOL" length="10" name="currencySymbol" type="string"/>
+    <property column="SC_PERCENTAGE" length="10" name="serviceChargePercentage" type="java.lang.Double"/>
+    <property column="GRATUITY_PERCENTAGE" length="10" name="defaultGratuityPercentage" type="java.lang.Double"/>
+    <property column="TICKET_FOOTER" length="60" name="ticketFooterMessage" type="java.lang.String"/>
+    <property column="PRICE_INCLUDES_TAX" name="itemPriceIncludesTax" type="java.lang.Boolean"/>
+  </class>
+</hibernate-mapping>
