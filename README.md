@@ -1,11 +1,9 @@
-Free Open Source Point of Sale for Restaurants
-==============================================
+#Free Open Source Point of Sale for Restaurants
 
 Simplify Order management, Automate kitchen and Keep control of cash. Its easy to learn and supports wide range of hardware. Runs in Windows, Linux, Mac and Java supported Tablets.
 
 
-
-This repository contains the code hosted from floreantpos on Sourceforge: http://sourceforge.net/p/floreantpos/code/HEAD/tree/
+This repository contains the code of floreantpos hosted on Sourceforge: http://sourceforge.net/p/floreantpos/code/HEAD/tree/
 
 Over the time I'm planning to extend the functionality of floreantPos by:
 
