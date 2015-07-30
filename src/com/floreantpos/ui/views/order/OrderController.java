@@ -31,7 +31,7 @@ import com.floreantpos.util.OrderUtil;
 public class OrderController implements OrderListener, CategorySelectionListener, GroupSelectionListener, ItemSelectionListener, ModifierSelectionListener {
 	private OrderView orderView;
 
-	public OrderController(OrderView orderView, OrderType orderType) {
+	public OrderController(OrderView orderView) {
 		this.orderView = orderView;
 
 		orderView.getCategoryView().addCategorySelectionListener(this);
