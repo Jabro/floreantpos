@@ -173,6 +173,7 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
 		cbTax = new javax.swing.JComboBox();
 		cbTakeOutTax = new javax.swing.JComboBox();
 		btnNewTax = new javax.swing.JButton();
+		btnNewTakeOutTax = new javax.swing.JButton();
 		jLabel2 = new javax.swing.JLabel();
 		jLabel2.setHorizontalAlignment(SwingConstants.TRAILING);
 		jLabel5 = new javax.swing.JLabel();
@@ -211,10 +212,17 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
 		tfPrice.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
 		lblTax.setText(Messages.getString("LABEL_TAX"));
-		lblTax.setText(Messages.getString("LABEL_TAKE_OUT_TAX"));
+		lblTakeOutTax.setText(Messages.getString("LABEL_TAKE_OUT_TAX"));
 
 		btnNewTax.setText("...");
 		btnNewTax.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				btnNewTaxdoCreateNewTax(evt);
+			}
+		});
+		
+		btnNewTakeOutTax.setText("...");
+		btnNewTakeOutTax.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnNewTaxdoCreateNewTax(evt);
 			}
@@ -295,6 +303,7 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
 		tabGeneral.add(btnNewGroup, "cell 3 4,growx,aligny top"); //$NON-NLS-1$
 		tabGeneral.add(tfDiscountRate, "cell 1 7,growx,aligny top"); //$NON-NLS-1$
 		tabGeneral.add(cbTax, "cell 1 8,growx,aligny top"); //$NON-NLS-1$
+		tabGeneral.add(cbTakeOutTax, "cell 1 9,growx,aligny top"); //$NON-NLS-1$
 		tabGeneral.add(tfPrice, "cell 1 6,growx,aligny top"); //$NON-NLS-1$
 
 		lblKitchenPrinter = new JLabel("Printer Group");
@@ -349,6 +358,7 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
 		tabGeneral.add(cbShowTextWithImage, "cell 1 14"); //$NON-NLS-1$
 		tabGeneral.add(chkVisible, "cell 1 15,alignx left,aligny top"); //$NON-NLS-1$
 		tabGeneral.add(btnNewTax, "cell 2 8,alignx left,aligny top"); //$NON-NLS-1$
+		tabGeneral.add(btnNewTakeOutTax, "cell 2 9,alignx left,aligny top"); //$NON-NLS-1$
 		tabGeneral.add(jLabel5, "cell 2 7"); //$NON-NLS-1$
 		add(tabbedPane);
 
@@ -460,6 +470,7 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
 	private javax.swing.JButton btnNewGroup;
 	private javax.swing.JButton btnNewModifierGroup;
 	private javax.swing.JButton btnNewTax;
+	private javax.swing.JButton btnNewTakeOutTax;
 	private javax.swing.JComboBox cbGroup;
 	private javax.swing.JComboBox cbTax;
 	private javax.swing.JComboBox cbTakeOutTax;

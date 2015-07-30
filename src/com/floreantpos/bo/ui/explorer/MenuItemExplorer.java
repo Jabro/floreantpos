@@ -35,6 +35,7 @@ public class MenuItemExplorer extends TransparentPanel {
 		tableModel.addColumn(POSConstants.DISCOUNT.toUpperCase() + "(%)", "discountRate");
 		tableModel.addColumn(POSConstants.FOOD_GROUP.toUpperCase(), "parent");
 		tableModel.addColumn(POSConstants.TAX.toUpperCase(), "tax");
+		tableModel.addColumn(POSConstants.TAKE_OUT_TAX.toUpperCase(), "takeOutTax");
 		tableModel.addColumn(POSConstants.SORT_ORDER.toUpperCase(), "sortOrder");
 		tableModel.addColumn(POSConstants.BUTTON_COLOR.toUpperCase(), "buttonColor");
 

@@ -237,6 +237,7 @@ public class POSConstants {
 	public static final String MENU_ITEMS = Messages.getString("PosMessage.176"); //$NON-NLS-1$
 	public static final String DATE_TIME = Messages.getString("PosMessage.177"); //$NON-NLS-1$
 	public static final String TAX = Messages.getString("PosMessage.178"); //$NON-NLS-1$
+	public static final String TAKE_OUT_TAX = Messages.getString("LABEL_TAKE_OUT_TAX"); //$NON-NLS-1$
 	public static final String NAME = Messages.getString("PosMessage.179"); //$NON-NLS-1$
 	public static final String TRANSLATED_NAME = Messages.getString("Translated_Name"); //$NON-NLS-1$
 	public static final String SORT_ORDER = Messages.getString("SORT_ORDER"); //$NON-NLS-1$

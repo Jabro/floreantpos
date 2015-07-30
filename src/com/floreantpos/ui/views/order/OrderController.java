@@ -30,7 +30,6 @@ import com.floreantpos.util.OrderUtil;
 
 public class OrderController implements OrderListener, CategorySelectionListener, GroupSelectionListener, ItemSelectionListener, ModifierSelectionListener {
 	private OrderView orderView;
-	private OrderType orderType;
 
 	public OrderController(OrderView orderView, OrderType orderType) {
 		this.orderView = orderView;
@@ -41,8 +40,6 @@ public class OrderController implements OrderListener, CategorySelectionListener
 		orderView.getOthersView().setItemSelectionListener(this);
 		orderView.getModifierView().addModifierSelectionListener(this);
 		orderView.getTicketView().addOrderListener(this);
-		
-		this.orderType = orderType;
 	}
 
 	public void categorySelected(MenuCategory foodCategory) {
@@ -59,7 +56,7 @@ public class OrderController implements OrderListener, CategorySelectionListener
 		MenuItemDAO dao = new MenuItemDAO();
 		menuItem = dao.initialize(menuItem);
 
-		TicketItem ticketItem = menuItem.convertToTicketItem(orderType);
+		TicketItem ticketItem = menuItem.convertToTicketItem(orderView.getCurrentTicket().getType());
 		orderView.getTicketView().addTicketItem(ticketItem);
 
 		if (menuItem.hasModifiers()) {

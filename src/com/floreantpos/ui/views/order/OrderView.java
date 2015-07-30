@@ -62,8 +62,12 @@ public class OrderView extends ViewPanel {
 		addView("VIEW_EMPTY", new com.floreantpos.swing.TransparentPanel());
 
 		showView("VIEW_EMPTY");
-
-		orderController = new OrderController(this, currentTicket.getType());
+		
+		if (currentTicket == null){
+			orderController = new OrderController(this, null);
+		} else {
+			orderController = new OrderController(this, currentTicket.getType());
+		}
 	}
 
 	/** This method is called from within the constructor to
