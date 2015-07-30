@@ -23,6 +23,7 @@ public abstract class BaseMenuItem  implements Comparable, Serializable {
 	public static String PROP_DISCOUNT_RATE = "discountRate";
 	public static String PROP_SORT_ORDER = "sortOrder";
 	public static String PROP_TAX = "tax";
+	public static String PROP_TAKE_OUT_TAX = "takeOutTax";
 	public static String PROP_TEXT_COLOR = "textColor";
 	public static String PROP_NAME = "name";
 	public static String PROP_PRINTER_GROUP = "printerGroup";
@@ -89,6 +90,7 @@ public abstract class BaseMenuItem  implements Comparable, Serializable {
 	// many to one
 	private com.floreantpos.model.MenuGroup parent;
 	private com.floreantpos.model.Tax tax;
+	private com.floreantpos.model.Tax takeOutTax;
 	private com.floreantpos.model.Recepie recepie;
 	private com.floreantpos.model.PrinterGroup printerGroup;
 
@@ -362,8 +364,21 @@ public abstract class BaseMenuItem  implements Comparable, Serializable {
 	public void setTax (com.floreantpos.model.Tax tax) {
 		this.tax = tax;
 	}
+	
+	/**
+	 * Return the value associated with the column: TAKE_OUT_TAX_ID
+	 */
+	public com.floreantpos.model.Tax getTakeOutTax () {
+					return takeOutTax;
+	}
 
-
+	/**
+	 * Set the value related to the column: TAX_ID
+	 * @param tax the TAX_ID value
+	 */
+	public void setTakeOutTax (com.floreantpos.model.Tax takeOutTax) {
+		this.takeOutTax = takeOutTax;
+	}
 
 	/**
 	 * Return the value associated with the column: RECEPIE

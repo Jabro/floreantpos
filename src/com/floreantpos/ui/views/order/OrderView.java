@@ -63,7 +63,7 @@ public class OrderView extends ViewPanel {
 
 		showView("VIEW_EMPTY");
 
-		orderController = new OrderController(this);
+		orderController = new OrderController(this, currentTicket.getType());
 	}
 
 	/** This method is called from within the constructor to

@@ -107,7 +107,7 @@ public class MenuItem extends BaseMenuItem {
 		return ("menu_item_" + getName() + "_" + getId()).replaceAll("\\s+", "_");
 	}
 	
-	public TicketItem convertToTicketItem() {
+	public TicketItem convertToTicketItem(OrderType orderType) {
 		TicketItem ticketItem = new TicketItem();
 		ticketItem.setItemId(this.getId());
 		ticketItem.setItemCount(1);
@@ -116,7 +116,17 @@ public class MenuItem extends BaseMenuItem {
 		ticketItem.setCategoryName(this.getParent().getParent().getDisplayName());
 		ticketItem.setUnitPrice(this.getPrice(Application.getInstance().getCurrentShift()));
 		ticketItem.setDiscountRate(this.getDiscountRate());
-		ticketItem.setTaxRate(this.getTax() == null ? 0 : this.getTax().getRate());
+		
+		if (orderType.equals(OrderType.DINE_IN)){
+			ticketItem.setTaxRate(this.getTax() == null ? 0 : this.getTax().getRate());
+		} else {
+			if (getTakeOutTax() != null) {
+				ticketItem.setTaxRate(getTakeOutTax().getRate());
+			} else { //Fall back to default tax rate in case takeOutTaxRate is not set
+				ticketItem.setTaxRate(this.getTax() == null ? 0 : this.getTax().getRate());
+			}
+		}
+		
 		ticketItem.setHasModifiers(hasModifiers());
 		if (this.getParent().getParent().isBeverage()) {
 			ticketItem.setBeverage(true);

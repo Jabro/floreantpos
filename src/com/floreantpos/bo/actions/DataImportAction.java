@@ -186,6 +186,12 @@ public class DataImportAction extends AbstractAction {
 						tax = (Tax) objectMap.get(tax.getUniqueId());
 						menuItem.setTax(tax);
 					}
+					
+					Tax takeOutTax = menuItem.getTakeOutTax();
+					if (takeOutTax != null) {
+						takeOutTax = (Tax) objectMap.get(takeOutTax.getUniqueId());
+						menuItem.setTax(takeOutTax);
+					}
 
 					List<MenuItemModifierGroup> menuItemModiferGroups = menuItem.getMenuItemModiferGroups();
 					if (menuItemModiferGroups != null) {

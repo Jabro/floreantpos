@@ -91,6 +91,7 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
 		TaxDAO taxDAO = new TaxDAO();
 		List<Tax> taxes = taxDAO.findAll();
 		cbTax.setModel(new ComboBoxModel(taxes));
+		cbTakeOutTax.setModel(new ComboBoxModel(taxes));
 
 		menuItemModifierGroups = menuItem.getMenuItemModiferGroups();
 		shiftTable.setModel(shiftTableModel = new ShiftTableModel(menuItem.getShifts()));
@@ -165,9 +166,12 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
 		jLabel3 = new javax.swing.JLabel();
 		jLabel3.setHorizontalAlignment(SwingConstants.TRAILING);
 		tfPrice = new DoubleTextField();
-		jLabel6 = new javax.swing.JLabel();
-		jLabel6.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblTax = new javax.swing.JLabel();
+		lblTax.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblTakeOutTax = new javax.swing.JLabel();
+		lblTakeOutTax.setHorizontalAlignment(SwingConstants.TRAILING);
 		cbTax = new javax.swing.JComboBox();
+		cbTakeOutTax = new javax.swing.JComboBox();
 		btnNewTax = new javax.swing.JButton();
 		jLabel2 = new javax.swing.JLabel();
 		jLabel2.setHorizontalAlignment(SwingConstants.TRAILING);
@@ -206,7 +210,8 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
 
 		tfPrice.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
-		jLabel6.setText(Messages.getString("LABEL_TAX"));
+		lblTax.setText(Messages.getString("LABEL_TAX"));
+		lblTax.setText(Messages.getString("LABEL_TAKE_OUT_TAX"));
 
 		btnNewTax.setText("...");
 		btnNewTax.addActionListener(new java.awt.event.ActionListener() {
@@ -249,7 +254,7 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
 		btnDeleteShift.addActionListener(this);
 
 		tfDiscountRate.setDocument(new DoubleDocument());
-		tabGeneral.setLayout(new MigLayout("", "[104px][100px,grow][][49px]", "[19px][][][][25px][][19px][19px][25px][][][][][][15px]"));
+		tabGeneral.setLayout(new MigLayout("", "[104px][100px,grow][][49px]", "[19px][][][][25px][][19px][19px][19px][25px][][][][][][15px]"));
 
 		lblTranslatedName = new JLabel(Messages.getString("MenuItemForm.lblTranslatedName.text")); //$NON-NLS-1$
 		tabGeneral.add(lblTranslatedName, "cell 0 1,alignx leading");
@@ -281,7 +286,8 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
 		tabGeneral.add(jLabel3, "cell 0 6,alignx left,aligny center");
 		tabGeneral.add(jLabel4, "cell 0 4,alignx left,aligny center");
 		setLayout(new BorderLayout(0, 0));
-		tabGeneral.add(jLabel6, "cell 0 8,alignx left,aligny center"); //$NON-NLS-1$
+		tabGeneral.add(lblTax, "cell 0 8,alignx left,aligny center"); //$NON-NLS-1$
+		tabGeneral.add(lblTakeOutTax, "cell 0 9,alignx left,aligny center"); //$NON-NLS-1$
 		tabGeneral.add(jLabel2, "cell 0 7,alignx left,aligny center"); //$NON-NLS-1$
 		tabGeneral.add(jLabel1, "cell 0 0,alignx left,aligny center"); //$NON-NLS-1$
 		tabGeneral.add(tfName, "cell 1 0 3 1,growx,aligny top"); //$NON-NLS-1$
@@ -292,21 +298,21 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
 		tabGeneral.add(tfPrice, "cell 1 6,growx,aligny top"); //$NON-NLS-1$
 
 		lblKitchenPrinter = new JLabel("Printer Group");
-		tabGeneral.add(lblKitchenPrinter, "cell 0 9"); //$NON-NLS-1$
+		tabGeneral.add(lblKitchenPrinter, "cell 0 10"); //$NON-NLS-1$
 
 		cbPrinterGroup = new JComboBox<PrinterGroup>(new DefaultComboBoxModel<PrinterGroup>(PrinterGroupDAO.getInstance().findAll()
 				.toArray(new PrinterGroup[0])));
-		tabGeneral.add(cbPrinterGroup, "cell 1 9,growx"); //$NON-NLS-1$
+		tabGeneral.add(cbPrinterGroup, "cell 1 10,growx"); //$NON-NLS-1$
 
 		JLabel lblImage = new JLabel("Image:");
 		lblImage.setHorizontalAlignment(SwingConstants.TRAILING);
-		tabGeneral.add(lblImage, "cell 0 10,aligny center");
+		tabGeneral.add(lblImage, "cell 0 11,aligny center");
 
 		lblImagePreview = new JLabel("");
 		lblImagePreview.setHorizontalAlignment(JLabel.CENTER);
 		lblImagePreview.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		lblImagePreview.setPreferredSize(new Dimension(100, 100));
-		tabGeneral.add(lblImagePreview, "cell 1 10");
+		tabGeneral.add(lblImagePreview, "cell 1 11");
 
 		JButton btnSelectImage = new JButton("...");
 		btnSelectImage.addActionListener(new ActionListener() {
@@ -314,7 +320,7 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
 				doSelectImageFile();
 			}
 		});
-		tabGeneral.add(btnSelectImage, "cell 2 10");
+		tabGeneral.add(btnSelectImage, "cell 2 11");
 
 		btnClearImage = new JButton("Clear");
 		btnClearImage.addActionListener(new ActionListener() {
@@ -322,26 +328,26 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
 				doClearImage();
 			}
 		});
-		tabGeneral.add(btnClearImage, "cell 3 10");
+		tabGeneral.add(btnClearImage, "cell 3 11");
 
 		lblButtonColor = new JLabel(Messages.getString("MenuItemForm.lblButtonColor.text")); //$NON-NLS-1$
-		tabGeneral.add(lblButtonColor, "cell 0 11");
+		tabGeneral.add(lblButtonColor, "cell 0 12");
 
 		btnButtonColor = new JButton(); //$NON-NLS-1$
 		btnButtonColor.setPreferredSize(new Dimension(140, 40));
-		tabGeneral.add(btnButtonColor, "cell 1 11");
+		tabGeneral.add(btnButtonColor, "cell 1 12");
 
 		lblTextColor = new JLabel(Messages.getString("MenuItemForm.lblTextColor.text")); //$NON-NLS-1$
-		tabGeneral.add(lblTextColor, "cell 0 12");
+		tabGeneral.add(lblTextColor, "cell 0 13");
 
 		btnTextColor = new JButton(Messages.getString("MenuItemForm.SAMPLE_TEXT")); //$NON-NLS-1$
 		btnTextColor.setPreferredSize(new Dimension(140, 40));
-		tabGeneral.add(btnTextColor, "cell 1 12");
+		tabGeneral.add(btnTextColor, "cell 1 13");
 
 		cbShowTextWithImage = new JCheckBox("Show image only");
 		cbShowTextWithImage.setActionCommand("Show Text with Image");
-		tabGeneral.add(cbShowTextWithImage, "cell 1 13"); //$NON-NLS-1$
-		tabGeneral.add(chkVisible, "cell 1 14,alignx left,aligny top"); //$NON-NLS-1$
+		tabGeneral.add(cbShowTextWithImage, "cell 1 14"); //$NON-NLS-1$
+		tabGeneral.add(chkVisible, "cell 1 15,alignx left,aligny top"); //$NON-NLS-1$
 		tabGeneral.add(btnNewTax, "cell 2 8,alignx left,aligny top"); //$NON-NLS-1$
 		tabGeneral.add(jLabel5, "cell 2 7"); //$NON-NLS-1$
 		add(tabbedPane);
@@ -456,13 +462,15 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
 	private javax.swing.JButton btnNewTax;
 	private javax.swing.JComboBox cbGroup;
 	private javax.swing.JComboBox cbTax;
+	private javax.swing.JComboBox cbTakeOutTax;
 	private javax.swing.JCheckBox chkVisible;
 	private javax.swing.JLabel jLabel1;
 	private javax.swing.JLabel jLabel2;
 	private javax.swing.JLabel jLabel3;
 	private javax.swing.JLabel jLabel4;
 	private javax.swing.JLabel jLabel5;
-	private javax.swing.JLabel jLabel6;
+	private javax.swing.JLabel lblTax;
+	private javax.swing.JLabel lblTakeOutTax;
 	private javax.swing.JPanel tabGeneral;
 	private javax.swing.JPanel tabModifier;
 	private javax.swing.JPanel tabShift;
@@ -597,6 +605,7 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
 
 		cbGroup.setSelectedItem(menuItem.getParent());
 		cbTax.setSelectedItem(menuItem.getTax());
+		cbTakeOutTax.setSelectedItem(menuItem.getTakeOutTax());
 
 		cbPrinterGroup.setSelectedItem(menuItem.getPrinterGroup());
 
@@ -630,6 +639,7 @@ public class MenuItemForm extends BeanEditor<MenuItem> implements ActionListener
 		menuItem.setParent((MenuGroup) cbGroup.getSelectedItem());
 		menuItem.setPrice(Double.valueOf(tfPrice.getText()));
 		menuItem.setTax((Tax) cbTax.getSelectedItem());
+		menuItem.setTakeOutTax((Tax) cbTakeOutTax.getSelectedItem());
 		menuItem.setVisible(chkVisible.isSelected());
 		menuItem.setShowImageOnly(cbShowTextWithImage.isSelected());
 

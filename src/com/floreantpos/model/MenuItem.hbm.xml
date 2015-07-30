@@ -45,6 +45,11 @@
 		<many-to-one class="com.floreantpos.model.Tax" lazy="false" name="tax">
 			<column name="TAX_ID" />
 		</many-to-one>
+		
+		<!-- uni-directional many-to-one association to Tax -->
+		<many-to-one class="com.floreantpos.model.Tax" lazy="false" name="takeOutTax">
+			<column name="TAKE_OUT_TAX_ID" />
+		</many-to-one>
 
 		<many-to-one class="com.floreantpos.model.Recepie" lazy="false" cascade="all" name="recepie">
 			<column name="RECEPIE" />
