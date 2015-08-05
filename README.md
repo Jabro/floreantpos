@@ -11,6 +11,8 @@ Over the time I'm planning to extend the functionality of floreantPos by:
 
 2) German Taxes: 
 	19% on everything when dining in, but only 7% Taxes when taking out the meal.
+	
+	Already implemented: allow users to specify separate tax for takeout
 
 3) Maybe some webservices allowing for the creation of a mobile app used by servers.
 
