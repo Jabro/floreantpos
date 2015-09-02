@@ -29,6 +29,7 @@ import com.floreantpos.model.dao.MenuItemDAO;
 import com.floreantpos.model.dao.MenuItemModifierGroupDAO;
 import com.floreantpos.model.dao.MenuModifierDAO;
 import com.floreantpos.model.dao.MenuModifierGroupDAO;
+import com.floreantpos.model.dao.TaxDAO;
 import com.floreantpos.ui.dialog.POSMessageDialog;
 import com.floreantpos.util.datamigrate.Elements;
 
@@ -50,7 +51,8 @@ public class DataImportAction extends AbstractAction {
 		try {
 
 			importMenuItemsFromFile(file);
-			POSMessageDialog.showMessage(com.floreantpos.util.POSUtil.getFocusedWindow(), Messages.getString("DataImportAction.1")); //$NON-NLS-1$
+			POSMessageDialog.showMessage(com.floreantpos.util.POSUtil.getFocusedWindow(),
+					Messages.getString("DataImportAction.1")); //$NON-NLS-1$
 
 		} catch (Exception e1) {
 			e1.printStackTrace();
@@ -59,12 +61,12 @@ public class DataImportAction extends AbstractAction {
 		}
 
 	}
-	
+
 	public static void importMenuItemsFromFile(File file) throws Exception {
 		if (file == null)
 			return;
 
-		FileInputStream	inputStream = new FileInputStream(file);
+		FileInputStream inputStream = new FileInputStream(file);
 		importMenuItems(inputStream);
 	}
 
@@ -74,18 +76,18 @@ public class DataImportAction extends AbstractAction {
 
 		try {
 
-
 			JAXBContext jaxbContext = JAXBContext.newInstance(Elements.class);
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 			Elements elements = (Elements) unmarshaller.unmarshal(inputStream);
 
 			List<Tax> taxes = elements.getTaxes();
 			if (taxes != null) {
+				int ctr = 1;
 				for (Tax tax : taxes) {
 					objectMap.put(tax.getUniqueId(), tax);
-					tax.setId(1);
+					tax.setId(ctr++);
 
-					//TaxDAO.getInstance().saveOrUpdate(tax);
+					TaxDAO.getInstance().saveOrUpdate(tax);
 				}
 			}
 
@@ -185,22 +187,25 @@ public class DataImportAction extends AbstractAction {
 						tax = (Tax) objectMap.get(tax.getUniqueId());
 						menuItem.setTax(tax);
 					}
-					
+
 					Tax takeOutTax = menuItem.getTakeOutTax();
 					if (takeOutTax != null) {
 						takeOutTax = (Tax) objectMap.get(takeOutTax.getUniqueId());
-						menuItem.setTax(takeOutTax);
+						menuItem.setTakeOutTax(takeOutTax);
 					}
 
 					List<MenuItemModifierGroup> menuItemModiferGroups = menuItem.getMenuItemModiferGroups();
 					if (menuItemModiferGroups != null) {
 						for (MenuItemModifierGroup menuItemModifierGroup : menuItemModiferGroups) {
-							MenuItemModifierGroup menuItemModifierGroup2 = (MenuItemModifierGroup) objectMap.get(menuItemModifierGroup.getUniqueId());
+							MenuItemModifierGroup menuItemModifierGroup2 = (MenuItemModifierGroup) objectMap
+									.get(menuItemModifierGroup.getUniqueId());
 							menuItemModifierGroup.setId(menuItemModifierGroup2.getId());
 							menuItemModifierGroup.setModifierGroup(menuItemModifierGroup2.getModifierGroup());
 						}
 					}
 
+					// System.out.println("Saving "+menuItem.getName()+" with
+					// takeAwayTax: "+takeOutTax);
 					MenuItemDAO.getInstance().saveOrUpdate(menuItem);
 				}
 			}
