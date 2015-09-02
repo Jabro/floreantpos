@@ -1,14 +1,15 @@
 package com.floreantpos.extension;
 
+import java.awt.Dimension;
 import java.util.List;
-
-import net.xeoh.plugins.base.Plugin;
 
 import com.floreantpos.config.ui.ConfigurationDialog;
 import com.floreantpos.model.ShopTable;
 import com.floreantpos.model.Ticket;
 
-public interface FloorLayoutPlugin extends Plugin {
+public interface FloorLayoutPlugin extends FloreantPlugin {
+	public final static Dimension defaultFloorImageSize = new Dimension(600, 400);
+	
 	void initialize();
 	void openTicketsAndTablesDisplay();
 	void initConfigurationView(ConfigurationDialog dialog);

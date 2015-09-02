@@ -92,12 +92,14 @@ public class Application {
 
 	public void start() {
 		pluginManager = PluginManagerFactory.createPluginManager();
-		pluginManager.addPluginsFrom(new File("plugins/").toURI());
 
 		if (developmentMode) {
 			pluginManager.addPluginsFrom(new File("/home/mshahriar/project/oro/target/classes").toURI());
 		}
-
+		else {
+			pluginManager.addPluginsFrom(new File("plugins/").toURI());
+		}
+		
 		setApplicationLook();
 
 		rootView = RootView.getInstance();

@@ -19,17 +19,15 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
-
-import org.apache.commons.lang.StringUtils;
 
 import com.floreantpos.IconFactory;
 import com.floreantpos.POSConstants;
 import com.floreantpos.model.ShopTable;
 import com.floreantpos.model.Ticket;
 import com.floreantpos.model.dao.ShopTableDAO;
+import com.floreantpos.swing.IntegerTextField;
 import com.floreantpos.swing.PosButton;
 import com.floreantpos.ui.TitlePanel;
 
@@ -37,7 +35,7 @@ public class TableSelectionDialog extends POSDialog implements ActionListener {
 	private int defaultValue;
 
 	private TitlePanel titlePanel;
-	private JTextField tfNumber;
+	private IntegerTextField tfNumber;
 
 	private DefaultListModel<ShopTable> addedTableListModel = new DefaultListModel<ShopTable>();
 	private JList<ShopTable> addedTableList = new JList<ShopTable>(addedTableListModel);
@@ -60,7 +58,7 @@ public class TableSelectionDialog extends POSDialog implements ActionListener {
 
 		JPanel keypadPanel = new JPanel(new MigLayout("fill"));
 
-		tfNumber = new JTextField();
+		tfNumber = new IntegerTextField();
 		tfNumber.setText(String.valueOf(defaultValue));
 		tfNumber.setFont(tfNumber.getFont().deriveFont(Font.BOLD, 24));
 		tfNumber.setFocusable(true);
@@ -148,7 +146,7 @@ public class TableSelectionDialog extends POSDialog implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				ShopTable selectedValue = addedTableList.getSelectedValue();
 				if (selectedValue != null) {
-					selectedValue.setOccupied(false);
+					selectedValue.setServing(false);
 					addedTableListModel.removeElement(selectedValue);
 				}
 			}
@@ -177,21 +175,21 @@ public class TableSelectionDialog extends POSDialog implements ActionListener {
 	}
 
 	private boolean addTable() {
-		String tableNumber = tfNumber.getText();
+		int tableNumber = tfNumber.getInteger();
 		
-		if (StringUtils.isEmpty(tableNumber)) {
-			POSMessageDialog.showError(this, "Please insert table number");
+		if (tableNumber <= 0) {
+			POSMessageDialog.showError(this, "Please insert valid table number");
 			return false;
 		}
 
-		ShopTable shopTable = ShopTableDAO.getInstance().getByNumber(tableNumber);
+		ShopTable shopTable = ShopTableDAO.getInstance().get(tableNumber);
 
 		if (shopTable == null) {
-			shopTable = new ShopTable();
-			shopTable.setTableNumber(tableNumber);
+			POSMessageDialog.showError(this, "There is no table with that number.");
+			return false;
 		}
 
-		if (shopTable.isOccupied()) {
+		if (shopTable.isServing()) {
 			POSMessageDialog.showError(this, "Table number " + tableNumber + " is occupied");
 			return false;
 		}

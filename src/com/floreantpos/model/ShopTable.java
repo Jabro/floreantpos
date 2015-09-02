@@ -20,26 +20,38 @@ public class ShopTable extends BaseShopTable {
 	}
 
 /*[CONSTRUCTOR MARKER END]*/
+	
+	private boolean isTemporary;
 
-	public ShopTable(String number, Integer x, Integer y) {
+	public ShopTable(Integer x, Integer y) {
 		super();
 		
-		setTableNumber(number);
 		setX(x);
 		setY(y);
 	}
 	
-	public ShopTable(ShopFloor floor, String number, Integer x, Integer y) {
+	public ShopTable(ShopFloor floor, Integer x, Integer y) {
 		super();
 		
 		setFloor(floor);
-		setTableNumber(number);
 		setX(x);
 		setY(y);
+	}
+	
+	public Integer getTableNumber() {
+		return getId();
 	}
 	
 	@Override
 	public String toString() {
-		return getTableNumber();
+		return String.valueOf(getTableNumber());
+	}
+
+	public boolean isTemporary() {
+		return isTemporary;
+	}
+
+	public void setTemporary(boolean isTemporary) {
+		this.isTemporary = isTemporary;
 	}
 }

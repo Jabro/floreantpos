@@ -8,6 +8,8 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Disjunction;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.floreantpos.model.ShopTable;
@@ -20,16 +22,39 @@ public class ShopTableDAO extends BaseShopTableDAO {
 	 * Default constructor.  Can be used in place of getInstance()
 	 */
 	public ShopTableDAO () {}
-
-	public ShopTable getByNumber(String tableNumber) {
+	
+	@Override
+	public Order getDefaultOrder() {
+		return Order.asc(ShopTable.PROP_ID);
+	}
+	
+	public int getNextTableNumber() {
 		Session session = getSession();
 		Criteria criteria = session.createCriteria(getReferenceClass());
-		criteria.add(Restrictions.eq(ShopTable.PROP_TABLE_NUMBER, tableNumber));
+		criteria.setProjection(Projections.rowCount());
+		
+		Integer result = (Integer) criteria.uniqueResult();
+		
+		return result;
+	}
+
+	public ShopTable getByNumber(int tableNumber) {
+		Session session = getSession();
+		Criteria criteria = session.createCriteria(getReferenceClass());
+		criteria.add(Restrictions.eq(ShopTable.PROP_ID, tableNumber));
 		
 		return (ShopTable) criteria.uniqueResult();
 	}
 
-	public List<ShopTable> getByNumbers(Collection<String> tableNumbers) {
+	public List<ShopTable> getAllUnassigned() {
+		Session session = getSession();
+		Criteria criteria = session.createCriteria(getReferenceClass());
+		criteria.add(Restrictions.isNull(ShopTable.PROP_FLOOR));
+		
+		return criteria.list();
+	}
+	
+	public List<ShopTable> getByNumbers(Collection<Integer> tableNumbers) {
 		if(tableNumbers == null) {
 			return null;
 		}
@@ -38,8 +63,8 @@ public class ShopTableDAO extends BaseShopTableDAO {
 		Criteria criteria = session.createCriteria(getReferenceClass());
 		Disjunction disjunction = Restrictions.disjunction();
 		
-		for (String tableNumber : tableNumbers) {
-			disjunction.add(Restrictions.eq(ShopTable.PROP_TABLE_NUMBER, tableNumber));
+		for (Integer tableNumber : tableNumbers) {
+			disjunction.add(Restrictions.eq(ShopTable.PROP_ID, tableNumber));
 		}
 		criteria.add(disjunction);
 		
@@ -63,7 +88,7 @@ public class ShopTableDAO extends BaseShopTableDAO {
 			tx = session.beginTransaction();
 
 			for (ShopTable shopTable : tables) {
-				shopTable.setOccupied(true);
+				shopTable.setServing(true);
 				saveOrUpdate(shopTable);
 			}
 
@@ -90,7 +115,7 @@ public class ShopTableDAO extends BaseShopTableDAO {
 			tx = session.beginTransaction();
 
 			for (ShopTable shopTable : tables) {
-				shopTable.setOccupied(false);
+				shopTable.setServing(false);
 				shopTable.setBooked(false);
 				saveOrUpdate(shopTable);
 			}

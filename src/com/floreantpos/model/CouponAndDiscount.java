@@ -28,10 +28,13 @@ public class CouponAndDiscount extends BaseCouponAndDiscount {
 	public final static int PERCENTAGE_PER_CATEGORY = 4;
 	public final static int PERCENTAGE_PER_ITEM = 5;
 	public final static int PERCENTAGE_PER_ORDER = 6;
+	public final static int REUSABLE_COUPON_AMOUNT = 6;
+	public final static int VOUCHER_FREE_AMOUNT = 7;
+	public final static int VOUCHER_FIXED_PER_ITEM = 8;
 
 	public final static String[] COUPON_TYPE_NAMES = { "Free Amount", "Fixed Per Category",
 			"Fixed Per Item", "Fixed Per Order", "Percentage Per Category",
-			"Percentage Per Item", "Percentage Per Order" };
+			"Percentage Per Item", "Percentage Per Order", "Voucher Free Amount", "Voucher Fixed Per item"};
 
 	@Override
 	public String toString() {
