@@ -1,99 +1,121 @@
 package com.floreantpos.model;
 
+import java.awt.Color;
 import java.awt.Image;
 import java.util.List;
-
 import javax.swing.ImageIcon;
 import javax.xml.bind.annotation.XmlRootElement;
-
 import org.apache.commons.lang.StringUtils;
-
 import com.floreantpos.config.TerminalConfig;
 import com.floreantpos.main.Application;
 import com.floreantpos.model.base.BaseMenuItem;
 
-@XmlRootElement(name="menu-item")
+@XmlRootElement(name = "menu-item")
 public class MenuItem extends BaseMenuItem {
+
 	private static final long serialVersionUID = 1L;
 
 	/*[CONSTRUCTOR MARKER BEGIN]*/
-	public MenuItem () {
+	public MenuItem() {
 		super();
 	}
 
 	/**
 	 * Constructor for primary key
 	 */
-	public MenuItem (java.lang.Integer id) {
+	public MenuItem(java.lang.Integer id) {
 		super(id);
 	}
 
 	/**
 	 * Constructor for required fields
 	 */
-	public MenuItem (
-		java.lang.Integer id,
-		java.lang.String name,
-		java.lang.Double buyPrice,
-		java.lang.Double price) {
+	public MenuItem(java.lang.Integer id, java.lang.String name, java.lang.Double buyPrice, java.lang.Double price) {
 
-		super (
-			id,
-			name,
-			buyPrice,
-			price);
+		super(id, name, buyPrice, price);
 	}
 
 	/*[CONSTRUCTOR MARKER END]*/
-	
+
+	public ImageIcon getImageAsIcon() {
+		Image scaledInstance = null;
+		ImageIcon icon = null;
+		int width = 100;
+		int height = 100;
+		byte[] imageData = getImage();
+		if (imageData != null) {
+			icon = new ImageIcon(imageData);
+			scaledInstance = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+			return new ImageIcon(scaledInstance);
+		}
+		return icon;
+	}
+
+	public void setImageAsIcon(ImageIcon icon) {
+
+	}
+
 	@Override
 	public Integer getSortOrder() {
 		return sortOrder == null ? 9999 : sortOrder;
 	}
-	
+
+	public Color getButtonAsColor() {
+		Color color = null;
+		if (getButtonColor() != null) {
+			color = new Color(getButtonColor());
+		}
+
+		return color;
+	}
+
+	public void setButtonAsColor(Color col) {
+
+	}
+
 	@Override
 	public Integer getButtonColor() {
 		return buttonColor;
 	}
-	
+
 	@Override
 	public Integer getTextColor() {
 		return textColor;
 	}
-	
+
 	public String getDisplayName() {
-		if(TerminalConfig.isUseTranslatedName() && StringUtils.isNotEmpty(getTranslatedName())) {
+		if (TerminalConfig.isUseTranslatedName() && StringUtils.isNotEmpty(getTranslatedName())) {
 			return getTranslatedName();
 		}
-		
+
 		return super.getName();
 	}
-	
+
 	public double getPrice(Shift currentShift) {
 		List<MenuItemShift> shifts = getShifts();
 		double price = super.getPrice();
-		
-		if(currentShift == null) {
+
+		if (currentShift == null) {
 			return price;
 		}
-		if(shifts == null || shifts.size() == 0) {
+		if (shifts == null || shifts.size() == 0) {
 			return price;
 		}
-		
-//		Date formattedTicketTime = ShiftUtil.formatShiftTime(ticketCreateTime);
-//		Calendar calendar = Calendar.getInstance();
-//		calendar.setTime(formattedTicketTime);
-//		formattedTicketTime = calendar.getTime();
-//		
+
+		//		Date formattedTicketTime = ShiftUtil.formatShiftTime(ticketCreateTime);
+		//		Calendar calendar = Calendar.getInstance();
+		//		calendar.setTime(formattedTicketTime);
+		//		formattedTicketTime = calendar.getTime();
+		//		
 		for (MenuItemShift shift : shifts) {
-			if(shift.getShift().equals(currentShift)) {
+			if (shift.getShift().equals(currentShift)) {
 				return shift.getShiftPrice();
 			}
-//			Date startTime = shift.getShift().getStartTime();
-//			Date endTime = shift.getShift().getEndTime();
-//			if(startTime.after(currentShift.getStartTime()) && endTime.before(currentShift.getEndTime())) {
-//				return shift.getShiftPrice();
-//			}
+			//			Date startTime = shift.getShift().getStartTime();
+			//			Date endTime = shift.getShift().getEndTime();
+			//			if(startTime.after(currentShift.getStartTime()) && endTime.before(currentShift.getEndTime())) {
+			//				return shift.getShiftPrice();
+			//			}
 		}
 		return price;
 	}
@@ -106,7 +128,7 @@ public class MenuItem extends BaseMenuItem {
 	public String getUniqueId() {
 		return ("menu_item_" + getName() + "_" + getId()).replaceAll("\\s+", "_");
 	}
-	
+
 	public TicketItem convertToTicketItem(OrderType orderType) {
 		TicketItem ticketItem = new TicketItem();
 		ticketItem.setItemId(this.getId());
@@ -131,36 +153,36 @@ public class MenuItem extends BaseMenuItem {
 		if (this.getParent().getParent().isBeverage()) {
 			ticketItem.setBeverage(true);
 			ticketItem.setShouldPrintToKitchen(false);
-		}
-		else {
+		} else {
 			ticketItem.setBeverage(false);
 			ticketItem.setShouldPrintToKitchen(true);
 		}
 		ticketItem.setPrinterGroup(this.getPrinterGroup());
-		
+
 		Recepie recepie = getRecepie();
-		if(recepie != null) {
+		if (recepie != null) {
 			List<RecepieItem> recepieItems = recepie.getRecepieItems();
 			for (RecepieItem recepieItem : recepieItems) {
 				InventoryItem inventoryItem = recepieItem.getInventoryItem();
 				Double recepieUnits = inventoryItem.getTotalRecepieUnits();
 				//Double percentage = recepieItem.getPercentage();
 				--recepieUnits;
-				
+
 			}
-			
+
 		}
-		
+
 		return ticketItem;
 	}
-	
+
 	public boolean hasModifiers() {
 		return (this.getMenuItemModiferGroups() != null && this.getMenuItemModiferGroups().size() > 0);
 	}
-	
+
 	public ImageIcon getScaledImage(int width, int height) {
 		ImageIcon icon = new ImageIcon(getImage());
-		Image scaledInstance = icon.getImage().getScaledInstance(width, height,  Image.SCALE_SMOOTH);
+		Image scaledInstance = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
 		return new ImageIcon(scaledInstance);
 	}
+
 }

@@ -19,9 +19,9 @@ import net.miginfocom.swing.MigLayout;
 
 import org.jdesktop.swingx.JXTable;
 
-import com.floreantpos.bo.ui.explorer.ListTableModel;
 import com.floreantpos.main.Application;
 import com.floreantpos.swing.BeanTableModel;
+import com.floreantpos.swing.ListTableModel;
 import com.floreantpos.ui.BeanEditor;
 import com.floreantpos.ui.dialog.POSMessageDialog;
 
@@ -201,8 +201,17 @@ public class ModelBrowser<E> extends JPanel implements ActionListener, ListSelec
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
+		if(e.getValueIsAdjusting()) {
+			return;
+		}
+		
 		BeanTableModel<E> model = (BeanTableModel<E>) browserTable.getModel();
-		int selectedRow = browserTable.convertRowIndexToModel(browserTable.getSelectedRow());
+		int selectedRow = browserTable.getSelectedRow();
+		if(selectedRow < 0) {
+			return;
+		}
+		
+		selectedRow = browserTable.convertRowIndexToModel(selectedRow);
 		
 		if(selectedRow < 0) return;
 		
